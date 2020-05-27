@@ -4,6 +4,8 @@ import { getCustomRepository } from 'typeorm';
 import Appointment from '../../models/Appointment';
 import AppointmentRepository from '../../repositories/AppointmentsRepository';
 
+import AppError from '../../errors/AppError';
+
 interface RequestDTO {
   date: Date;
   provider_id: string;
@@ -22,7 +24,7 @@ class CreateAppointmentService {
     );
 
     if (findAppointmentInSameDate) {
-      throw Error('This scheduling time already busy!');
+      throw new AppError('This scheduling time already busy!');
     }
 
     const appointment = appointmentsRepository.create({

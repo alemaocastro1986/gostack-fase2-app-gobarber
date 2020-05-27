@@ -6,6 +6,8 @@ import authConfig from '../../config/auth';
 
 import User from '../../models/User';
 
+import AppError from '../../errors/AppError';
+
 interface RequestDTO {
   email: string;
   password: string;
@@ -25,13 +27,19 @@ class CreateSessionService {
     });
 
     if (!user) {
-      throw Error('Incorrect email/password verify your credentials.');
+      throw new AppError(
+        'Incorrect email/password verify your credentials.',
+        401,
+      );
     }
 
     const passwordMatched = await compare(password, user.password);
 
     if (!passwordMatched) {
-      throw Error('Incorrect email/password verify your credentials.');
+      throw new AppError(
+        'Incorrect email/password verify your credentials.',
+        401,
+      );
     }
     const { expiresIn, secret } = authConfig.jwt;
     const token = sign({}, secret, {
