@@ -5,7 +5,7 @@ import CreateSessionService from '../services/sessions/CreateSessionService';
 const sessionsRoutes = Router();
 
 sessionsRoutes.post('/', async (request: Request, response: Response) => {
-  const { email, password } = request.bosssdy;
+  const { email, password } = request.body;
 
   const createSession = new CreateSessionService();
   const { user, token } = await createSession.execute({
