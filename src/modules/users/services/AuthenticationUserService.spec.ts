@@ -5,19 +5,25 @@ import CreateUserService from './CreateUserService';
 import FakeUserRepository from '../repositories/fakes/FakeUserRepository';
 import FakeHashProvider from '../providers/HashProvider/fakes/FakeHashProvider';
 
-describe('AuthenticateUser', () => {
-  it('Should be able to authenticate', async () => {
-    const fakeUserRepository = new FakeUserRepository();
-    const fakeHashProvider = new FakeHashProvider();
-    const authenticateUserService = new AuthenticationUserService(
-      fakeUserRepository,
-      fakeHashProvider,
-    );
-    const createUserService = new CreateUserService(
-      fakeUserRepository,
-      fakeHashProvider,
-    );
+let fakeUserRepository: FakeUserRepository;
+let fakeHashProvider: FakeHashProvider;
+let authenticateUserService: AuthenticationUserService;
+let createUserService: CreateUserService;
 
+describe('AuthenticateUser', () => {
+  beforeEach(() => {
+    fakeUserRepository = new FakeUserRepository();
+    fakeHashProvider = new FakeHashProvider();
+    authenticateUserService = new AuthenticationUserService(
+      fakeUserRepository,
+      fakeHashProvider,
+    );
+    createUserService = new CreateUserService(
+      fakeUserRepository,
+      fakeHashProvider,
+    );
+  });
+  it('Should be able to authenticate', async () => {
     const user = await createUserService.execute({
       name: 'John Doe',
       email: 'john_doe@gobarber.com.br',
@@ -34,13 +40,6 @@ describe('AuthenticateUser', () => {
   });
 
   it('this should return an instance of AppError, as it cannot find a registered user', async () => {
-    const fakeUserRepository = new FakeUserRepository();
-    const fakeHashProvider = new FakeHashProvider();
-    const authenticateUserService = new AuthenticationUserService(
-      fakeUserRepository,
-      fakeHashProvider,
-    );
-
     await expect(
       authenticateUserService.execute({
         email: 'john_doe@gobarber.com.br',
@@ -50,16 +49,6 @@ describe('AuthenticateUser', () => {
   });
 
   it('should return an instance of AppError, when entering an incorrect password', async () => {
-    const fakeUserRepository = new FakeUserRepository();
-    const fakeHashProvider = new FakeHashProvider();
-    const authenticateUserService = new AuthenticationUserService(
-      fakeUserRepository,
-      fakeHashProvider,
-    );
-    const createUserService = new CreateUserService(
-      fakeUserRepository,
-      fakeHashProvider,
-    );
     await createUserService.execute({
       name: 'John Doe',
       email: 'john_doe@gobarber.com.br',
