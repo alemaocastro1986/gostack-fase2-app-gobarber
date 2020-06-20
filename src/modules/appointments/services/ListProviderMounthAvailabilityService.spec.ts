@@ -31,6 +31,11 @@ describe('UpdateProfile', () => {
       await fakeAppointmentsRepository.create(appointment);
     });
 
+    await fakeAppointmentsRepository.create({
+      provider_id: 'user',
+      date: new Date(2020, 4, 11, 8, 0, 0),
+    });
+
     await Promise.all(appointments);
 
     const availability = await listProvidersMouthAvailability.execute({
@@ -39,13 +44,7 @@ describe('UpdateProfile', () => {
       year: 2020,
     });
 
-    expect(availability).toEqual(
-      expect.arrayContaining([
-        { day: 9, available: true },
-        { day: 10, available: false },
-        { day: 11, available: false },
-        { day: 12, available: true },
-      ]),
-    );
+    expect(availability).toContainEqual({ day: 10, available: false });
+    expect(availability).toContainEqual({ day: 11, available: true });
   });
 });
