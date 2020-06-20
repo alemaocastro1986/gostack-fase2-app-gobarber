@@ -18,23 +18,20 @@ describe('UpdateProfile', () => {
   });
 
   it('Should be able to list the month availability from provider', async () => {
-    await fakeAppointmentsRepository.create({
-      provider_id: 'user',
-      date: new Date(2020, 4, 10, 8, 0, 0),
-    });
-    await fakeAppointmentsRepository.create({
-      provider_id: 'user',
-      date: new Date(2020, 4, 10, 10, 0, 0),
-    });
-    await fakeAppointmentsRepository.create({
-      provider_id: 'user',
-      date: new Date(2020, 4, 11, 8, 0, 0),
+    const appointments = [];
+    // eslint-disable-next-line no-plusplus
+    for (let index = 0; index < 10; index++) {
+      appointments.push({
+        provider_id: 'user',
+        date: new Date(2020, 4, 10, 8 + index, 0, 0),
+      });
+    }
+
+    appointments.map(async appointment => {
+      await fakeAppointmentsRepository.create(appointment);
     });
 
-    await fakeAppointmentsRepository.create({
-      provider_id: 'user',
-      date: new Date(2020, 3, 10, 8, 0, 0),
-    });
+    await Promise.all(appointments);
 
     const availability = await listProvidersMouthAvailability.execute({
       provider_id: 'user',
