@@ -38,7 +38,7 @@
 **RF**
 
 - O prestador deve poder listar seus agendamentos de um dia específico;
-- O prestador deve receber uma notificação semŕe que tiver um novo agendamento;
+- O prestador deve receber uma notificação sempre que tiver um novo agendamento;
 - O prestador deve poder visualizar as notificações não lidas;
 
 **RNF**
@@ -65,6 +65,9 @@
 - A listagem de prestadoras deve ser armezanada em cache;
 
 **RN**
+
+- O usuário não pode agendar em um horário que já passou.
+- O usuário não pode agendar serviços consigo mesmo.
 
 - Cada agendamento deve dura 1h hora exatamente.
 - Os agendamentos deve estar disponíveis entre 8h às 18h (Primeiro 8h, último 18h)

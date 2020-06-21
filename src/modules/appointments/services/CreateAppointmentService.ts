@@ -9,6 +9,7 @@ import Appointment from '@modules/appointments/infra/typeorm/entities/Appointmen
 interface IRequestDTO {
   date: Date;
   provider_id: string;
+  user_id: string;
 }
 
 @injectable()
@@ -21,6 +22,7 @@ class CreateAppointmentService {
   public async execute({
     date,
     provider_id,
+    user_id,
   }: IRequestDTO): Promise<Appointment> {
     const appointmentDate = startOfHour(date);
     const findAppointmentInSameDate = await this._appointmentsRepository.findByDate(
@@ -33,6 +35,7 @@ class CreateAppointmentService {
 
     const appointment = await this._appointmentsRepository.create({
       provider_id,
+      user_id,
       date: appointmentDate,
     });
 

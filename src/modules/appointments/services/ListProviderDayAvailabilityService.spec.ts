@@ -22,7 +22,8 @@ describe('UpdateProfile', () => {
     // eslint-disable-next-line no-plusplus
     for (let index = 0; index < 2; index++) {
       appointments.push({
-        provider_id: 'user',
+        provider_id: 'provider',
+        user_id: 'user',
         date: new Date(2020, 4, 10, 14 + index, 0, 0),
       });
     }
@@ -34,7 +35,7 @@ describe('UpdateProfile', () => {
     await Promise.all(appointments);
 
     const availability = await listProvidersDayAvailability.execute({
-      provider_id: 'user',
+      provider_id: 'provider',
       day: 10,
       month: 5,
       year: 2020,
