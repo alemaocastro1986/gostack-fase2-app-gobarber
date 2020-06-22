@@ -1,4 +1,4 @@
-import { uuid } from 'uuidv4';
+import { ObjectID } from 'mongodb';
 import INotificationRepository from '@modules/notifications/repositories/INotificationRepository';
 import ICreateNotificationDTO from '@modules/notifications/dtos/ICreateNotificationDTO';
 
@@ -14,7 +14,7 @@ export default class NotificationRepository implements INotificationRepository {
     const notification = new Notification();
 
     Object.assign(notification, {
-      id: uuid(),
+      id: new ObjectID(),
       content,
       recipient_id,
       read: false,

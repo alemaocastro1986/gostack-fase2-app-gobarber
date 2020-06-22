@@ -5,11 +5,11 @@ import ICreateNotificationDTO from '@modules/notifications/dtos/ICreateNotificat
 
 import Notification from '../schemas/Notification';
 
-export default class NotificationRepository implements INotificationRepository {
+class NotificationRepository implements INotificationRepository {
   private _ormRepository: MongoRepository<Notification>;
 
   constructor() {
-    this._ormRepository = getMongoRepository(Notification);
+    this._ormRepository = getMongoRepository(Notification, 'mongo');
   }
 
   public async create({
@@ -25,3 +25,5 @@ export default class NotificationRepository implements INotificationRepository {
     return notification;
   }
 }
+
+export default NotificationRepository;
